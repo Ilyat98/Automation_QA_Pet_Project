@@ -1,10 +1,9 @@
 import math
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from .base_page import BasePage
 from .locators import ProductPageLocators
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoAlertPresentException
-
 
 
 
@@ -16,8 +15,14 @@ class ProductPage(BasePage):
         button.click()
         self.solve_quiz_and_get_code()
 
+
     def solve_quiz_and_get_code(self):
-        alert = self.browser.switch_to.alert
+        try:
+            alert = self.browser.switch_to.alert
+        except NoAlertPresentException:
+            print("No quiz alert presented")
+            return
+
         x = alert.text.split(" ")[2]
         answer = str(math.log(abs((12 * math.sin(float(x))))))
         alert.send_keys(answer)
@@ -31,24 +36,28 @@ class ProductPage(BasePage):
             print("No second alert presented")
 
 
+
     def should_be_correct_product_name(self):
         product_name = self.browser.find_element(
             *ProductPageLocators.PRODUCT_NAME).text
-        success_message = self.browser.find_element(
-            *ProductPageLocators.SUCCESS_MESSAGE).text
+        success_message = WebDriverWait(self.browser, 5).until(
+            EC.visibility_of_element_located(ProductPageLocators.SUCCESS_MESSAGE)).text
         assert product_name == success_message, "Product name in message is incorrect"
+
 
     def should_be_correct_price(self):
         product_price = self.browser.find_element(
             *ProductPageLocators.PRODUCT_PRICE).text
-        basket_price = self.browser.find_element(
-            *ProductPageLocators.BASKET_PRICE).text
+        basket_price = WebDriverWait(self.browser, 5).until(
+            EC.visibility_of_element_located(ProductPageLocators.BASKET_PRICE)).text
         assert product_price == basket_price, "Basket price is different from product price"
+
 
     def should_not_be_success_message(self):
         assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
             "Success message is presented, but should not be"
 
-    def success_message_should_be_disappeared(self):
-     assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), \
+
+    def success_message_should_be_disappeared(self, timeout=5):
+        assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE, timeout=timeout), \
             "Success message is presented, but should not be"
