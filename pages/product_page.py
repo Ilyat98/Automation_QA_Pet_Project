@@ -10,7 +10,7 @@ from selenium.common.exceptions import NoAlertPresentException
 class ProductPage(BasePage):
 
     def add_product_to_basket(self):
-        button = WebDriverWait(self.browser, 5).until(
+        button = WebDriverWait(self.browser, 10).until(
             EC.element_to_be_clickable(ProductPageLocators.ADD_TO_BASKET_BUTTON))
         button.click()
         self.solve_quiz_and_get_code()
