@@ -1,10 +1,9 @@
-import pytest
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
 from config.config import BASE_URL
 
 
-@pytest.mark.login_guest
+
 class TestLoginPage:
 
     def test_guest_can_go_to_login_page(self, browser):

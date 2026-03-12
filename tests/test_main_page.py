@@ -23,14 +23,15 @@ class TestGuestLoginFromMainPage:
         login_page = LoginPage(browser, browser.current_url)
         login_page.should_be_login_page()
 
-
+    @pytest.mark.new
     def test_guest_cant_see_product_in_basket_opened_from_main_page(self, browser):
         link = BASE_URL
-        page = BasketPage(browser, link)
+        page = MainPage(browser, link)
         page.open()
         page.go_to_basket_page()
-        page.should_be_message_of_empty_basket()
-        page.should_not_be_list_of_products()
+        basket_page = BasketPage(browser, browser.current_url)
+        basket_page.should_be_message_of_empty_basket()
+        basket_page.should_not_be_list_of_products()
 
 
 
