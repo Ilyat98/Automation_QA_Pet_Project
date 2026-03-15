@@ -1,5 +1,5 @@
 
 
 
-def create_user_payload(generate_user_data):
-    return generate_user_data()
+def create_user_payload(data):
+    return data
