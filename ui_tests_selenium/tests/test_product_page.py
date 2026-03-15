@@ -1,8 +1,8 @@
 import pytest
-from pages.basket_page import BasketPage
-from pages.login_page import LoginPage
-from pages.product_page import ProductPage
-from config.config import BASE_URL, PRODUCT_URL_1, PRODUCT_URL_2, PROMO_OFFER_LINK
+from ui_tests_selenium.pages.basket_page import BasketPage
+from ui_tests_selenium.pages.login_page import LoginPage
+from ui_tests_selenium.pages.product_page import ProductPage
+from ui_tests_selenium.config.config import BASE_URL, PRODUCT_URL_1, PRODUCT_URL_2, PROMO_OFFER_LINK
 
 
 @pytest.mark.login_user

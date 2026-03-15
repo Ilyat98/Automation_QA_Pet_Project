@@ -1,8 +1,8 @@
 import pytest
-from config.config import Login_PAGE_URL, BASE_URL
-from pages.login_page import LoginPage
-from pages.main_page import MainPage
-from pages.basket_page import BasketPage
+from ui_tests_selenium.config.config import Login_PAGE_URL, BASE_URL
+from ui_tests_selenium.pages.login_page import LoginPage
+from ui_tests_selenium.pages.main_page import MainPage
+from ui_tests_selenium.pages.basket_page import BasketPage
 
 
 

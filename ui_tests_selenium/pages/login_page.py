@@ -25,14 +25,10 @@ class LoginPage(BasePage):
         assert self.is_element_present(*LoginPageLocators.REGISTER_FORM), "Register form has not been found"
 
 
-    def register_random_user(self):
-        fake = faker.Faker()
-        email = fake.email()
-        password = fake.password()
+    def register_random_user(self, generate_login_data):
         self.should_be_register_form()
-        self.browser.find_element(*LoginPageLocators.REGISTER_FORM_LINE_MAIL).send_keys(email)
-        self.browser.find_element(*LoginPageLocators.REGISTER_FORM_LINE_PASS).send_keys(password)
-        self.browser.find_element(*LoginPageLocators.REGISTER_FORM_LINE_PASS_CONFIRM).send_keys(password)
+        self.browser.find_element(*LoginPageLocators.REGISTER_FORM_LINE_MAIL).send_keys(generate_login_data[0])
+        self.browser.find_element(*LoginPageLocators.REGISTER_FORM_LINE_PASS).send_keys(generate_login_data[1])
+        self.browser.find_element(*LoginPageLocators.REGISTER_FORM_LINE_PASS_CONFIRM).send_keys(generate_login_data[1])
         WebDriverWait(self.browser, 5).until(
             EC.element_to_be_clickable(LoginPageLocators.REGISTER_FORM_BUTTON)).click()
-        return email, password

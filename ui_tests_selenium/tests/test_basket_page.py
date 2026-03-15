@@ -1,6 +1,6 @@
-from pages.main_page import MainPage
-from pages.basket_page import BasketPage
-from config.config import BASE_URL
+from ui_tests_selenium.pages.main_page import MainPage
+from ui_tests_selenium.pages.basket_page import BasketPage
+from ui_tests_selenium.config.config import BASE_URL
 
 
 class TestBasketPage:

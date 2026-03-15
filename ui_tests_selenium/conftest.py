@@ -1,4 +1,5 @@
 import pytest
+from faker import Faker
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
@@ -8,8 +9,8 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.firefox.service import Service as FirefoxService
 
 
-
 SUPPORTED_BROWSERS = {"chrome", "firefox"}
+fake = Faker()
 
 
 def pytest_addoption(parser):
@@ -47,3 +48,10 @@ def browser(request):
     yield browser
 
     browser.quit()
+
+
+@pytest.fixture
+def generate_login_data():
+    fake_email = fake.email()
+    fake_pass = fake.password(9)
+    return fake_email, fake_pass
