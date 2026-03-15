@@ -17,3 +17,18 @@ class UsersResponse(BaseModel):
     per_page: int
     total: int
     data: List[User]
+
+
+class CreateUserResponse(BaseModel):
+
+    name: str
+    job: str
+    id: str
+    createdAt: str
+
+
+class UpdateUserResponse(BaseModel):
+
+    name: str
+    job: str
+    updatedAt: str

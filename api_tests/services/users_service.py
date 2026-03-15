@@ -9,22 +9,14 @@ class UsersService(BaseService):
         return self.api_client.get(USERS)
 
 
-    def get_single_user(self, user_id):
-        endpoint = SINGLE_USER.format(user_id)
-        return self.api_client.get(endpoint)
-
-
-    def create_user(self, data):
-        payload = create_user_payload(data)
+    def create_user(self, payload):
         return self.api_client.post(USERS, payload)
 
 
-    def update_user(self, user_id, data):
-        endpoint = SINGLE_USER.format(user_id)
-        return self.api_client.put(endpoint, data)
+    def update_user(self, user_id, payload):
+        return self.api_client.put(f"{USERS}/{user_id}", payload)
 
 
     def delete_user(self, user_id):
-        endpoint = SINGLE_USER.format(user_id)
-        return self.api_client.delete(endpoint)
+        return self.api_client.delete(f"{USERS}/{user_id}")
 

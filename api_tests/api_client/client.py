@@ -1,19 +1,45 @@
 import requests
+from api_tests.utills.api_logger import log_response
+
 
 
 class ApiClient:
 
-    def __init__(self, base_url):
+    def __init__(self, base_url: str):
         self.base_url = base_url
+        self.session = requests.Session()
 
-    def get(self, endpoint):
-        return requests.get(f"{self.base_url}{endpoint}")
+        self.session.headers.update({
+            "Content-Type": "application/json"
+        })
 
-    def post(self, endpoint, payload):
-        return requests.post(f"{self.base_url}{endpoint}", json=payload)
+    def get(self, endpoint, params=None):
+        response = self.session.get(
+            f"{self.base_url}{endpoint}",
+            params=params,
+            timeout=10)
+        log_response(response)
+        return response
 
-    def put(self, endpoint, payload):
-        return requests.put(f"{self.base_url}{endpoint}", json=payload)
+    def post(self, endpoint, payload=None):
+        response = self.session.post(
+            f"{self.base_url}{endpoint}",
+            json=payload,
+            timeout=10)
+        log_response(response)
+        return response
+
+    def put(self, endpoint, payload=None):
+        response = self.session.put(
+            f"{self.base_url}{endpoint}",
+            json=payload,
+            timeout=10)
+        log_response(response)
+        return response
 
     def delete(self, endpoint):
-        return requests.delete(f"{self.base_url}{endpoint}")
+        response = self.session.delete(
+            f"{self.base_url}{endpoint}",
+            timeout=10)
+        log_response(response)
+        return response
