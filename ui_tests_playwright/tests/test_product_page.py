@@ -1,10 +1,9 @@
-import allure
 import pytest
-from ui_tests_selenium.pages.basket_page import BasketPage
-from ui_tests_selenium.pages.login_page import LoginPage
-from ui_tests_selenium.pages.product_page import ProductPage
-from config.config import BASE_URL, PRODUCT_URL_1, PROMO_OFFER_LINK, PRODUCT_URL_2
 
+from config.config import BASE_URL, PRODUCT_URL_1, PROMO_OFFER_LINK, PRODUCT_URL_2
+from ui_tests_playwright.pages.basket_page import BasketPage
+from ui_tests_playwright.pages.login_page import LoginPage
+from ui_tests_playwright.pages.product_page import ProductPage
 
 
 @pytest.mark.login_user
@@ -50,8 +49,7 @@ class TestGuestAddToBasketFromProductPage:
         page.should_be_correct_product_name()
         page.should_be_correct_price()
 
-    @allure.feature("Login")
-    @allure.story("Guest can open login page")
+
     def test_guest_can_go_to_login_page_from_product_page(self, browser):
         link = PRODUCT_URL_2
         page = ProductPage(browser, link)
@@ -76,5 +74,3 @@ class TestGuestAddToBasketFromProductPage:
         page = ProductPage(browser, link)
         page.open()
         page.should_be_login_link()
-
-

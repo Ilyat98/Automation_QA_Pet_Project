@@ -1,5 +1,4 @@
-from api_tests.endpoints import USERS, SINGLE_USER
-from api_tests.payloads.users_payload import create_user_payload
+from api_tests.endpoints import USERS
 from api_tests.services.base_service import BaseService
 
 
@@ -7,6 +6,10 @@ class UsersService(BaseService):
 
     def get_users(self):
         return self.api_client.get(USERS)
+
+
+    def get_single_user(self, user_id):
+        return self.api_client.get(f"{USERS}/{user_id}")
 
 
     def create_user(self, payload):

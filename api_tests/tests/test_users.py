@@ -1,10 +1,10 @@
 import allure
 import pytest
+
 from api_tests.factories.user_factory import UserFactory
 from api_tests.models.user_model import CreateUserResponse, UsersResponse
-from api_tests.utills.assertions import assert_status_code
-from api_tests.utills.response_validator import validate_response
-from utils.validators import validate_users_response
+from api_tests.utils.assertions import assert_status_code
+from api_tests.utils.response_validator import validate_response
 
 
 @pytest.mark.api
@@ -19,10 +19,7 @@ def test_get_users(users_service):
 
 
 def test_create_user(users_service):
-    payload = {
-        "name": "John",
-        "job": "QA"
-    }
+    payload = UserFactory.create_user()
     response = users_service.create_user(payload)
     user = validate_response(response, CreateUserResponse)
     assert user.name == payload["name"]
@@ -66,3 +63,34 @@ def test_users_pagination(users_service):
     data = response.json()
     assert data["page"] == 1
     assert data["per_page"] > 0
+
+
+
+def test_create_user_invalid_email(api_client):
+
+    payload = {
+        "email": "not-an-email",
+        "password": "123456"
+    }
+
+    response = api_client.create_user(payload)
+
+    assert response.status_code == 400
+
+
+def test_create_user_missing_password(api_client):
+
+    payload = {
+        "email": "test@test.com"
+    }
+
+    response = api_client.create_user(payload)
+
+    assert response.status_code == 400
+
+
+def test_get_user_wrong_id(api_client):
+
+    response = api_client.get_user(999999)
+
+    assert response.status_code == 404

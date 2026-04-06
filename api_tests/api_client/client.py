@@ -1,5 +1,5 @@
 import requests
-from api_tests.utills.api_logger import log_response
+from api_tests.utils.api_logger import log_request, log_response
 
 
 
@@ -22,10 +22,9 @@ class ApiClient:
         return response
 
     def post(self, endpoint, payload=None):
-        response = self.session.post(
-            f"{self.base_url}{endpoint}",
-            json=payload,
-            timeout=10)
+        url = f"{self.base_url}{endpoint}"
+        log_request("POST", url, payload)
+        response = self.session.post(url, json=payload, timeout=10)
         log_response(response)
         return response
 

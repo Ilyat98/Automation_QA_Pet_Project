@@ -1,4 +1,3 @@
-import faker
 from .base_page import BasePage
 from selenium.webdriver.support.wait import WebDriverWait
 from .locators import LoginPageLocators, MainPageLocators

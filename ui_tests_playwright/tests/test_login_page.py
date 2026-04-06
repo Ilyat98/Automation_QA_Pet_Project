@@ -1,8 +1,6 @@
 from config.config import BASE_URL
-from ui_tests_selenium.pages.login_page import LoginPage
-from ui_tests_selenium.pages.main_page import MainPage
-
-
+from ui_tests_playwright.pages.login_page import LoginPage
+from ui_tests_playwright.pages.main_page import MainPage
 
 
 class TestLoginPage:
