@@ -1,3 +1,5 @@
+import time
+
 import allure
 import pytest
 from ui_tests_selenium.pages.basket_page import BasketPage
@@ -11,12 +13,14 @@ from config.config import BASE_URL, PRODUCT_URL_1, PROMO_OFFER_LINK, PRODUCT_URL
 class TestUserAddToBasketFromProductPage:
 
     @pytest.fixture(scope="function", autouse=True)
-    def setup(self, browser):
+    def setup(self, browser, generate_login_data):
         link = BASE_URL
         register_page = LoginPage(browser, link)
         register_page.open()
         register_page.go_to_login_page()
-        self.email, self.password = register_page.register_random_user()
+        email, password = generate_login_data
+        register_page.register_user(email, password)
+        register_page.should_be_authorized_user()
 
 
     def test_user_cant_see_success_message(self, browser):
@@ -26,7 +30,7 @@ class TestUserAddToBasketFromProductPage:
         page.should_be_authorized_user()
         page.should_not_be_success_message()
 
-    @pytest.mark.new
+    @allure.story("Add product to basket")
     def test_user_can_add_product_to_basket(self, browser):
         link = PRODUCT_URL_1
         page = ProductPage(browser, link)
@@ -60,7 +64,6 @@ class TestGuestAddToBasketFromProductPage:
         login_page = LoginPage(browser, browser.current_url)
         login_page.should_be_login_page()
 
-    @pytest.mark.new
     def test_guest_cant_see_product_in_basket_opened_from_product_page(self, browser):
         link = PRODUCT_URL_1
         page = ProductPage(browser, link)

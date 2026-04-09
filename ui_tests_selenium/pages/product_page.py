@@ -1,7 +1,9 @@
 import math
+
+import allure
+
 from .base_page import BasePage
 from .locators import ProductPageLocators
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoAlertPresentException
 
@@ -9,8 +11,9 @@ from selenium.common.exceptions import NoAlertPresentException
 
 class ProductPage(BasePage):
 
+    @allure.step("Add product to basket")
     def add_product_to_basket(self):
-        button = WebDriverWait(self.browser, 10).until(
+        button = self.wait.until(
             EC.element_to_be_clickable(ProductPageLocators.ADD_TO_BASKET_BUTTON))
         button.click()
         self.solve_quiz_and_get_code()
@@ -40,19 +43,19 @@ class ProductPage(BasePage):
     def should_be_correct_product_name(self):
         product_name = self.browser.find_element(
             *ProductPageLocators.PRODUCT_NAME).text
-        success_message = WebDriverWait(self.browser, 5).until(
+        success_message = self.wait.until(
             EC.visibility_of_element_located(ProductPageLocators.SUCCESS_MESSAGE)).text
         assert product_name == success_message, "Product name in message is incorrect"
 
-
+    @allure.step("Check product price is correct")
     def should_be_correct_price(self):
         product_price = self.browser.find_element(
             *ProductPageLocators.PRODUCT_PRICE).text
-        basket_price = WebDriverWait(self.browser, 5).until(
+        basket_price = self.wait.until(
             EC.visibility_of_element_located(ProductPageLocators.BASKET_PRICE)).text
         assert product_price == basket_price, "Basket price is different from product price"
 
-
+    @allure.step("Check success message is displayed")
     def should_not_be_success_message(self):
         assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
             "Success message is presented, but should not be"

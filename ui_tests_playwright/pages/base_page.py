@@ -1,3 +1,5 @@
+import allure
+
 from ui_tests_playwright.pages.locators import BasePageLocators
 from playwright.sync_api import expect
 
@@ -10,6 +12,7 @@ class BasePage:
     def open(self):
         self.page.goto(self.url)
 
+    @allure.step("Go to login page")
     def go_to_login_page(self):
         self.page.locator(BasePageLocators.LOGIN_LINK).click()
 

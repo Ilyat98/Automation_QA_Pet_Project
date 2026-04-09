@@ -20,6 +20,7 @@ class LoginPageLocators:
     REGISTER_FORM_LINE_PASS = (By.CSS_SELECTOR, "#id_registration-password1")
     REGISTER_FORM_LINE_PASS_CONFIRM = (By.CSS_SELECTOR, "#id_registration-password2")
     REGISTER_FORM_BUTTON = (By.CSS_SELECTOR, "[name='registration_submit']")
+    REGISTER_ERROR_MESSAGE = (By.CSS_SELECTOR, ".alert-danger")
 
 
 class BasketPageLocators:
