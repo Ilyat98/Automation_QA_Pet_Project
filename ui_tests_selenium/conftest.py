@@ -31,6 +31,9 @@ def browser(request):
 
     if browser_name == "chrome":
         options = Options()
+        options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
         options.add_experimental_option('prefs', {'intl.accept_languages': language})
 
         service = ChromeService(ChromeDriverManager().install())
