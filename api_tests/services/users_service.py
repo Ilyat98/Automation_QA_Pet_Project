@@ -7,19 +7,14 @@ class UsersService(BaseService):
     def get_users(self):
         return self.api_client.get(USERS)
 
-
-    def get_single_user(self, user_id):
+    def get_user(self, user_id: int):
         return self.api_client.get(f"{USERS}/{user_id}")
 
+    def create_user(self, data: dict):
+        return self.api_client.post(USERS, data)
 
-    def create_user(self, payload):
-        return self.api_client.post(USERS, payload)
+    def update_user(self, user_id: int, data: dict):
+        return self.api_client.put(f"{USERS}/{user_id}", data)
 
-
-    def update_user(self, user_id, payload):
-        return self.api_client.put(f"{USERS}/{user_id}", payload)
-
-
-    def delete_user(self, user_id):
+    def delete_user(self, user_id: int):
         return self.api_client.delete(f"{USERS}/{user_id}")
-

@@ -2,8 +2,8 @@ import time
 
 import allure
 import pytest
-from ui_tests_selenium.pages.basket_page import BasketPage
 from ui_tests_selenium.pages.login_page import LoginPage
+from ui_tests_selenium.pages.basket_page import BasketPage
 from ui_tests_selenium.pages.product_page import ProductPage
 from config.config import BASE_URL, PRODUCT_URL_1, PROMO_OFFER_LINK, PRODUCT_URL_2
 
@@ -30,6 +30,7 @@ class TestUserAddToBasketFromProductPage:
         page.should_be_authorized_user()
         page.should_not_be_success_message()
 
+
     @allure.story("Add product to basket")
     def test_user_can_add_product_to_basket(self, browser):
         link = PRODUCT_URL_1
@@ -54,6 +55,7 @@ class TestGuestAddToBasketFromProductPage:
         page.should_be_correct_product_name()
         page.should_be_correct_price()
 
+
     @allure.feature("Login")
     @allure.story("Guest can open login page")
     def test_guest_can_go_to_login_page_from_product_page(self, browser):
@@ -63,6 +65,7 @@ class TestGuestAddToBasketFromProductPage:
         page.go_to_login_page()
         login_page = LoginPage(browser, browser.current_url)
         login_page.should_be_login_page()
+
 
     def test_guest_cant_see_product_in_basket_opened_from_product_page(self, browser):
         link = PRODUCT_URL_1

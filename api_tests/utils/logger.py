@@ -7,11 +7,11 @@ def log_request(method, url, payload=None, params=None):
     print(f"METHOD: {method}")
     print(f"URL: {url}")
 
-    if params:
+    if params is not None:
         print("PARAMS:")
         print(json.dumps(params, indent=4))
 
-    if payload:
+    if payload is not None:
         print("PAYLOAD:")
         print(json.dumps(payload, indent=4))
 

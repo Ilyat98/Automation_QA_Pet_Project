@@ -1,5 +1,4 @@
 
 
-BASE_URL = "https://reqres.in/api"
+BASE_URL = "https://jsonplaceholder.typicode.com"
 USERS = "/users"
-SINGLE_USER = "/users/{}"

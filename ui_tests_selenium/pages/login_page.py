@@ -34,7 +34,5 @@ class LoginPage(BasePage):
 
     @allure.step("Check registration error is displayed")
     def should_be_register_error(self):
-        error = self.wait.until(
-            EC.visibility_of_element_located(LoginPageLocators.REGISTER_ERROR_MESSAGE)
-        )
+        error = self.wait.until(EC.visibility_of_element_located(LoginPageLocators.REGISTER_ERROR_MESSAGE))
         assert error is not None, "Registration error message is not displayed"

@@ -6,7 +6,9 @@ from .locators import BasketPageLocators
 class BasketPage(BasePage):
 
     def should_be_message_of_empty_basket(self):
-        expect(self.page.locator(BasketPageLocators.MESSAGE_OF_EMPTY_BASKET)).to_be_visible()
+        assert self.page.locator(BasketPageLocators.MESSAGE_OF_EMPTY_BASKET).is_visible(), \
+            "Empty basket message is not presented"
 
     def should_not_be_list_of_products(self):
-        expect(self.page.locator(BasketPageLocators.LIST_OF_PRODUCTS)).to_have_count(0)
+        assert self.page.locator(BasketPageLocators.LIST_OF_PRODUCTS).count() == 0, \
+            "Products are present in basket, but should not be"

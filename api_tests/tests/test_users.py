@@ -1,10 +1,8 @@
 import allure
 import pytest
-
-from api_tests.factories.user_factory import UserFactory
-from api_tests.models.user_model import CreateUserResponse, UsersResponse
-from api_tests.utils.assertions import assert_status_code
-from api_tests.utils.response_validator import validate_response
+from api_tests.data.user_factory import UserFactory
+from api_tests.models.user_model import CreateUserResponse, UpdateUserResponse, User
+from api_tests.utils.validator import validate_response
 
 
 @pytest.mark.api
@@ -12,85 +10,47 @@ from api_tests.utils.response_validator import validate_response
 @allure.title("Get users list")
 def test_get_users(users_service):
     response = users_service.get_users()
-    assert_status_code(response, 200)
-    users = validate_response(response, UsersResponse)
-    assert users.page == 1
-    assert len(users.data) > 0
+    users = validate_response(response, list, 200)
+    assert len(users) > 0
+    user = users[0]
+    assert "id" in user
+    assert "name" in user
+    assert "email" in user
 
 
 def test_create_user(users_service):
-    payload = UserFactory.create_user()
+    payload = UserFactory.user()
     response = users_service.create_user(payload)
-    user = validate_response(response, CreateUserResponse)
+    user = validate_response(response, CreateUserResponse, 201)
     assert user.name == payload["name"]
 
 
 @pytest.mark.parametrize("user_id", [1, 2, 3])
 def test_get_single_user(users_service, user_id):
-    response = users_service.get_single_user(user_id)
-    assert_status_code(response, 200)
-    data = response.json()
-    assert data["data"]["id"] == user_id
+    response = users_service.get_user(user_id)
+    user = validate_response(response, User, 200)
+    assert user.id == user_id
 
 
-def test_update_user(users_service, generate_user_data):
-    response = users_service.update_user(2, generate_user_data)
-    assert_status_code(response, 200)
-    data = response.json()
-    assert "name" in data
-    assert "job" in data
-
+def test_update_user(users_service, user_data):
+    response = users_service.update_user(2, user_data)
+    user = validate_response(response, UpdateUserResponse, 200)
+    assert user.name == user_data["name"]
 
 
 def test_delete_user(users_service):
     response = users_service.delete_user(2)
-    assert_status_code(response, 204)
+    assert response.status_code == 200
 
 
-def test_get_user_not_found(users_service):
-    response = users_service.get_single_user(9999)
-    assert_status_code(response, 404)
-
-
-@pytest.mark.parametrize("payload", [{}, {"name": 123}, {"job": None}])
-def test_create_user_invalid_payload(users_service, payload):
-    response = users_service.create_user(payload)
-    assert response.status_code >= 400
-
-
-def test_users_pagination(users_service):
-    response = users_service.get_users()
-    data = response.json()
-    assert data["page"] == 1
-    assert data["per_page"] > 0
-
-
-
-def test_create_user_invalid_email(api_client):
-
-    payload = {
-        "email": "not-an-email",
-        "password": "123456"
-    }
-
-    response = api_client.create_user(payload)
-
-    assert response.status_code == 400
-
-
-def test_create_user_missing_password(api_client):
-
-    payload = {
-        "email": "test@test.com"
-    }
-
-    response = api_client.create_user(payload)
-
-    assert response.status_code == 400
-
-
-def test_get_user_wrong_id(api_client):
-
-    response = api_client.get_user(999999)
-
+@pytest.mark.parametrize("user_id", [9999, 999999])
+def test_get_user_not_found(users_service, user_id):
+    response = users_service.get_user(user_id)
     assert response.status_code == 404
+
+
+def test_users_schema(users_service):
+    response = users_service.get_users()
+    users = validate_response(response, list, 200)
+    for user in users:
+        User(**user)

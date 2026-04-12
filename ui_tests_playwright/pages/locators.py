@@ -21,6 +21,7 @@ class LoginPageLocators:
     REGISTER_FORM_LINE_PASS = "#id_registration-password1"
     REGISTER_FORM_LINE_PASS_CONFIRM = "#id_registration-password2"
     REGISTER_FORM_BUTTON = "[name='registration_submit']"
+    REGISTER_ERROR_MESSAGE = ".alert-danger"
 
 
 class BasketPageLocators:

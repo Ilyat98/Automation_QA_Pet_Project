@@ -1,8 +1,10 @@
 import allure
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from .locators import BasePageLocators
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from .locators import BasePageLocators
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
+
+
 
 
 class BasePage:
@@ -43,13 +45,11 @@ class BasePage:
 
     def is_disappeared(self, how, what, timeout=4):
         try:
-            self.wait.until_not(
-                EC.presence_of_element_located((how, what))
-            )
+            self.wait.until_not(EC.presence_of_element_located((how, what)))
         except TimeoutException:
             return False
         return True
 
     def should_be_authorized_user(self):
         assert self.is_element_present(*BasePageLocators.USER_ICON), \
-            "User icon is not presented, probably unauthorised user"
+                            "User icon is not presented, probably unauthorised user"

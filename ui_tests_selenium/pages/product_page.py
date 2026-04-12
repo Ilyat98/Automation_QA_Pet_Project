@@ -1,11 +1,10 @@
 import math
-
 import allure
-
 from .base_page import BasePage
 from .locators import ProductPageLocators
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoAlertPresentException
+from selenium.webdriver.support import expected_conditions as EC
+
 
 
 
@@ -13,9 +12,7 @@ class ProductPage(BasePage):
 
     @allure.step("Add product to basket")
     def add_product_to_basket(self):
-        button = self.wait.until(
-            EC.element_to_be_clickable(ProductPageLocators.ADD_TO_BASKET_BUTTON))
-        button.click()
+        self.wait.until(EC.element_to_be_clickable(ProductPageLocators.ADD_TO_BASKET_BUTTON)).click()
         self.solve_quiz_and_get_code()
 
 
@@ -39,13 +36,13 @@ class ProductPage(BasePage):
             print("No second alert presented")
 
 
-
     def should_be_correct_product_name(self):
         product_name = self.browser.find_element(
             *ProductPageLocators.PRODUCT_NAME).text
         success_message = self.wait.until(
             EC.visibility_of_element_located(ProductPageLocators.SUCCESS_MESSAGE)).text
         assert product_name == success_message, "Product name in message is incorrect"
+
 
     @allure.step("Check product price is correct")
     def should_be_correct_price(self):
@@ -54,6 +51,7 @@ class ProductPage(BasePage):
         basket_price = self.wait.until(
             EC.visibility_of_element_located(ProductPageLocators.BASKET_PRICE)).text
         assert product_price == basket_price, "Basket price is different from product price"
+
 
     @allure.step("Check success message is displayed")
     def should_not_be_success_message(self):
