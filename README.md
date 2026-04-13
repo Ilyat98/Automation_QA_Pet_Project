@@ -2,7 +2,7 @@
 
 Portfolio automation testing project focused on practical QA skills: UI, API, and DB testing with Python and Pytest.
 
-The goal is to show a realistic Junior+/Middle-level approach: clear test structure, stable execution in Docker, basic CI, and readable reporting.
+The goal of this project is to practice and demonstrate real-world QA automation skills across UI, API, and DB testing.
 
 ## Tech Stack
 
@@ -12,7 +12,7 @@ The goal is to show a realistic Junior+/Middle-level approach: clear test struct
 - Playwright
 - Requests
 - Pydantic
-- PyMySQL + MySQL 8
+- PyMySQL + MySQL
 - Docker + Docker Compose
 - Allure Report
 - GitHub Actions and GitLab CI
@@ -95,7 +95,7 @@ This starts MySQL, then runs Selenium, Playwright, API, and DB suites sequential
 - Unified test run logs are written to `logs/` (mounted from container).
 - Allure raw results are written to `allure-results/`.
 - Logging format is centralized via `utils/logging_config.py`.
-- Pytest hook logging records:
+- Each test logs:
   - `PASSED <nodeid>`
   - `FAILED <nodeid>` with failure details
 
