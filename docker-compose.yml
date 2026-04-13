@@ -29,4 +29,14 @@ services:
       DB_USER: test_user
       DB_PASSWORD: test_password
       DB_NAME: test_db
-    command: pytest ui_tests_selenium ui_tests_playwright api_tests db_tests
+      LOG_DIR: /app/logs
+    volumes:
+      - ./logs:/app/logs
+      - ./allure-results:/app/allure-results
+    command: >
+      sh -c "
+      pytest ui_tests_selenium &&
+      pytest ui_tests_playwright &&
+      pytest api_tests &&
+      pytest db_tests
+      "

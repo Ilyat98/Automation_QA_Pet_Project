@@ -12,9 +12,8 @@ class LoginPage(BasePage):
         self.should_be_login_form()
         self.should_be_register_form()
 
-
     def should_be_login_url(self):
-        assert self.is_element_present(*MainPageLocators.LOGIN_LINK), "Login link is not presented"
+        assert "login" in self.browser.current_url, f"Unexpected login URL: {self.browser.current_url}"
 
     @allure.step("Check login form is present")
     def should_be_login_form(self):

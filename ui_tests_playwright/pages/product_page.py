@@ -59,8 +59,8 @@ class ProductPage(BasePage):
         assert product_price == basket_price, f"Basket price ({basket_price}) is different from product price ({product_price})"
 
     def should_not_be_success_message(self):
-        assert self.page.locator(ProductPageLocators.SUCCESS_MESSAGE).is_visible() == 0, \
-            "Success message is presented, but should not be"
+        success_messages = self.page.locator(ProductPageLocators.SUCCESS_MESSAGE)
+        assert success_messages.count() == 0, "Success message is presented, but should not be"
 
     def success_message_should_be_disappeared(self):
         try:

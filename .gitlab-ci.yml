@@ -1,0 +1,18 @@
+stages:
+  - test
+
+tests:
+  stage: test
+  image: docker:24
+  services:
+    - docker:24-dind
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    - docker compose up --build --abort-on-container-exit --exit-code-from tests
+    - docker compose down -v
+  artifacts:
+    when: always
+    paths:
+      - logs/
+      - allure-results/

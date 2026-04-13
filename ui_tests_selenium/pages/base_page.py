@@ -51,5 +51,6 @@ class BasePage:
         return True
 
     def should_be_authorized_user(self):
-        assert self.is_element_present(*BasePageLocators.USER_ICON), \
-                            "User icon is not presented, probably unauthorised user"
+        auth_user = self.wait.until(EC.visibility_of_element_located(BasePageLocators.USER_ICON))
+        assert auth_user, \
+            "User icon is not presented, probably unauthorised user"

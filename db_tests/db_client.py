@@ -1,14 +1,15 @@
+import os
 import pymysql
-
 
 class DBClient:
 
     def __init__(self):
+
         self.connection = pymysql.connect(
-            host="mysql",
-            user="test_user",
-            password="test_password",
-            database="test_db",
+            host=os.getenv("DB_HOST", "localhost"),
+            user=os.getenv("DB_USER", "test_user"),
+            password=os.getenv("DB_PASSWORD", "test_password"),
+            database=os.getenv("DB_NAME", "test_db"),
             cursorclass=pymysql.cursors.DictCursor
         )
 

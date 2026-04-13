@@ -1,30 +1,22 @@
 import json
+from utils.logging_config import setup_logger
 
+logger = setup_logger("api_tests")
 
 def log_request(method, url, payload=None, params=None):
-
-    print("\n----- API REQUEST -----")
-    print(f"METHOD: {method}")
-    print(f"URL: {url}")
+    logger.info("REQUEST %s %s", method, url)
 
     if params is not None:
-        print("PARAMS:")
-        print(json.dumps(params, indent=4))
+        logger.info("PARAMS: %s", json.dumps(params, ensure_ascii=False))
 
     if payload is not None:
-        print("PAYLOAD:")
-        print(json.dumps(payload, indent=4))
+        logger.info("PAYLOAD: %s", json.dumps(payload, ensure_ascii=False))
 
 
 def log_response(response):
-
-    print("----- API RESPONSE -----")
-    print(f"STATUS: {response.status_code}")
+    logger.info("RESPONSE %s", response.status_code)
 
     try:
-        print("BODY:")
-        print(json.dumps(response.json(), indent=4))
+        logger.info("BODY: %s", json.dumps(response.json(), ensure_ascii=False))
     except Exception:
-        print(response.text)
-
-    print("------------------------\n")
+        logger.info("BODY: %s", response.text)
