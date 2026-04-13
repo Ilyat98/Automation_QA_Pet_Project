@@ -1,4 +1,5 @@
 import pytest
+import allure
 from config.config import Login_PAGE_URL, BASE_URL
 from ui_tests_playwright.pages.basket_page import BasketPage
 from ui_tests_playwright.pages.login_page import LoginPage
@@ -6,6 +7,8 @@ from ui_tests_playwright.pages.main_page import MainPage
 
 
 @pytest.mark.login_guest
+@allure.feature("UI Playwright - Main")
+@allure.story("Guest navigation from main page")
 class TestGuestLoginFromMainPage:
 
     def test_guest_should_see_login_link(self, page):

@@ -1,4 +1,5 @@
 import pytest
+import allure
 from config.config import BASE_URL, PRODUCT_URL_1, PROMO_OFFER_LINK, PRODUCT_URL_2
 from ui_tests_playwright.pages.basket_page import BasketPage
 from ui_tests_playwright.pages.login_page import LoginPage
@@ -6,6 +7,8 @@ from ui_tests_playwright.pages.product_page import ProductPage
 
 
 @pytest.mark.login_user
+@allure.feature("UI Playwright - Product")
+@allure.story("Authorized user basket actions")
 class TestUserAddToBasketFromProductPage:
 
     @pytest.fixture
@@ -36,6 +39,8 @@ class TestUserAddToBasketFromProductPage:
 
 
 @pytest.mark.guest_user
+@allure.feature("UI Playwright - Product")
+@allure.story("Guest product page actions")
 class TestGuestAddToBasketFromProductPage:
 
     @pytest.mark.parametrize('promo_offer', [ 0, 1, 2, 3, 4, 5,

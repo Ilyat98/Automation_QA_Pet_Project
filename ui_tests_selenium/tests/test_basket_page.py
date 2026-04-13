@@ -1,9 +1,11 @@
+import allure
 from config.config import BASE_URL
 from ui_tests_selenium.pages.main_page import MainPage
 from ui_tests_selenium.pages.basket_page import BasketPage
 
 
-
+@allure.feature("UI Selenium - Basket")
+@allure.story("Guest basket state")
 class TestBasketPage:
 
     def test_guest_cant_see_product_in_basket_opened_from_main_page(self, browser):

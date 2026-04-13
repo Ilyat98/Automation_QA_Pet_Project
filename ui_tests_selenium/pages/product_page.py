@@ -2,13 +2,21 @@ import math
 import allure
 from .base_page import BasePage
 from .locators import ProductPageLocators
-from selenium.common.exceptions import NoAlertPresentException
+from selenium.common.exceptions import NoAlertPresentException, StaleElementReferenceException
 from selenium.webdriver.support import expected_conditions as EC
 
 
 
 
 class ProductPage(BasePage):
+    def _get_visible_text(self, locator, attempts=3):
+        for attempt in range(attempts):
+            try:
+                return self.wait.until(EC.visibility_of_element_located(locator)).text
+            except StaleElementReferenceException:
+                if attempt == attempts - 1:
+                    raise
+        return ""
 
     @allure.step("Add product to basket")
     def add_product_to_basket(self):
@@ -37,19 +45,15 @@ class ProductPage(BasePage):
 
 
     def should_be_correct_product_name(self):
-        product_name = self.browser.find_element(
-            *ProductPageLocators.PRODUCT_NAME).text
-        success_message = self.wait.until(
-            EC.visibility_of_element_located(ProductPageLocators.SUCCESS_MESSAGE)).text
+        product_name = self._get_visible_text(ProductPageLocators.PRODUCT_NAME)
+        success_message = self._get_visible_text(ProductPageLocators.SUCCESS_MESSAGE)
         assert product_name == success_message, "Product name in message is incorrect"
 
 
     @allure.step("Check product price is correct")
     def should_be_correct_price(self):
-        product_price = self.browser.find_element(
-            *ProductPageLocators.PRODUCT_PRICE).text
-        basket_price = self.wait.until(
-            EC.visibility_of_element_located(ProductPageLocators.BASKET_PRICE)).text
+        product_price = self._get_visible_text(ProductPageLocators.PRODUCT_PRICE)
+        basket_price = self._get_visible_text(ProductPageLocators.BASKET_PRICE)
         assert product_price == basket_price, "Basket price is different from product price"
 
 

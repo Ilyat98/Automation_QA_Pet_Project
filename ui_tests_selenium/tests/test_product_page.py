@@ -10,6 +10,8 @@ from config.config import BASE_URL, PRODUCT_URL_1, PROMO_OFFER_LINK, PRODUCT_URL
 
 
 @pytest.mark.login_user
+@allure.feature("UI Selenium - Product")
+@allure.story("Authorized user basket actions")
 class TestUserAddToBasketFromProductPage:
 
     @pytest.fixture(scope="function", autouse=True)
@@ -43,6 +45,8 @@ class TestUserAddToBasketFromProductPage:
 
 
 @pytest.mark.guest_user
+@allure.feature("UI Selenium - Product")
+@allure.story("Guest product page actions")
 class TestGuestAddToBasketFromProductPage:
 
     @pytest.mark.parametrize('promo_offer', [ 0, 1, 2, 3, 4, 5,
@@ -56,7 +60,6 @@ class TestGuestAddToBasketFromProductPage:
         page.should_be_correct_price()
 
 
-    @allure.feature("Login")
     @allure.story("Guest can open login page")
     def test_guest_can_go_to_login_page_from_product_page(self, browser):
         link = PRODUCT_URL_2

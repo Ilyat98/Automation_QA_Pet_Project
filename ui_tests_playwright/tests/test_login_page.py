@@ -7,6 +7,7 @@ from ui_tests_playwright.pages.login_page import LoginPage
 from ui_tests_playwright.pages.main_page import MainPage
 
 
+@allure.feature("UI Playwright - Authentication")
 class TestLoginPage:
 
     def test_guest_can_go_to_login_page(self, page):

@@ -7,10 +7,12 @@ from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.firefox.service import Service as FirefoxService
+from utils.logging_config import setup_logger
 
 
 SUPPORTED_BROWSERS = {"chrome", "firefox"}
 fake = Faker()
+logger = setup_logger("ui_selenium")
 
 
 def pytest_addoption(parser):
@@ -58,3 +60,14 @@ def generate_login_data():
     fake_email = fake.email()
     fake_pass = fake.password(9)
     return fake_email, fake_pass
+
+
+@pytest.hookimpl(trylast=True)
+def pytest_runtest_logreport(report):
+    if report.when != "call":
+        return
+    if report.passed:
+        logger.info("PASSED %s", report.nodeid)
+    elif report.failed:
+        logger.error("FAILED %s", report.nodeid)
+        logger.error("%s", report.longrepr)

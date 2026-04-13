@@ -1,4 +1,5 @@
 import pytest
+import allure
 
 from config.config import BASE_URL, Login_PAGE_URL
 from ui_tests_selenium.pages.login_page import LoginPage
@@ -8,6 +9,8 @@ from ui_tests_selenium.pages.basket_page import BasketPage
 
 
 @pytest.mark.login_guest
+@allure.feature("UI Selenium - Main")
+@allure.story("Guest navigation from main page")
 class TestGuestLoginFromMainPage:
 
     def test_guest_should_see_login_link(self, browser):
